@@ -5,6 +5,19 @@ var builder = require("xmlbuilder");
 var helpers = require("./helpers");
 var tag = require("./tag");
 
+/** Data required to create an atom feed. Many of these properties match up with the Atom 1.0 specification
+  * @typedef {Object} {EntryData}
+  * @property id {string=} Entry id. If unspecfied, a tag: URI will be generated when added to a feed
+  * @property title {string} Entry title
+  * @property updated {Date} Date the entry was last updated
+  * @property published {Date}= Date the entry was first published
+  * @memberof AtomEntry
+  */
+
+/** Creates a new Atom entry object.
+  * @constructor
+  * @param feed {EntryData} An {@link EntryData} object to use when constructing the feed
+  */
 function AtomEntry(entry) {
   var keys = Object.keys(entry);
   if (keys.indexOf("title") === -1) {
@@ -38,6 +51,11 @@ function AtomEntry(entry) {
   this.refDate = entry.published || entry.updated;
 }
 
+/** Adds this entry to a feed.
+  * Calling this method enforces some checks such as id generation
+  * and author enforcement that depend on knowing the owning feed
+  * @param feed {AtomFeed} Feed to add this entry to
+  */
 AtomEntry.prototype.addTo = function(feed) {
   if (this.props.indexOf("id") === -1) {
     if (!feed.domain) {

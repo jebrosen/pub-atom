@@ -20,6 +20,20 @@ var generatorData = {
   }
 };
 
+/** Data required to create an atom feed. Many of these properties match up with the Atom 1.0 specification
+  * @typedef {Object} {FeedData}
+  * @property id {string} Feed id.
+  * @property title {string} Feed title
+  * @property updated {Date} Date the feed was last updated
+  * @property generator {string=} Generator of the feed. pub-atom information will be used if unspecified
+  * @property $domain {string=} Domain to use for this feed when automatically generating tag: URIs for entries
+  * @memberof AtomFeed
+  */
+
+/** Creates a new Atom feed object.
+  * @constructor
+  * @param feed {FeedData} A {@link FeedData} object to use when constructing the feed
+  */
 function AtomFeed(feed) {
   var keys = Object.keys(feed);
   if (keys.indexOf("id") === -1) {
@@ -59,11 +73,17 @@ function AtomFeed(feed) {
   }
 }
 
+/** Adds an entry to this feed
+  * @param entry {EntryData} An {@link EntryData} object used to construct the entry
+  */
 AtomFeed.prototype.add = function(entry) {
   var ae = new AtomEntry(entry);
   ae.addTo(this);
 };
 
+/** Converts this feed to an XML string
+  * @returns XML Data representing the feed
+  */
 AtomFeed.prototype.toString = function() {
   return this.doc.toString();
 };
