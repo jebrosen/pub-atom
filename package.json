@@ -1,0 +1,24 @@
+{
+  "name": "pub-atom",
+  "version": "0.1.0",
+  "description": "Atom 1.0 Feed generator",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jebrosen/pub-atom.git"
+  },
+  "keywords": [
+    "atom",
+    "feed",
+    "generator"
+  ],
+  "author": "Jeb Rosen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jebrosen/pub-atom/issues"
+  },
+  "homepage": "https://github.com/jebrosen/pub-atom",
+  "dependencies": {
+    "xmlbuilder": "^2.4.0"
+  }
+}
