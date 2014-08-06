@@ -4,6 +4,7 @@ var builder = require("xmlbuilder");
 
 var AtomEntry = require("./AtomEntry");
 var helpers = require("./helpers");
+var tag = require("./tag");
 
 var base = {
   feed: {
@@ -46,7 +47,7 @@ function AtomFeed(feed) {
     throw new Error("Feed updated is required");
   }
 
-  this.doc = builder.create(base);
+  this.doc = builder.create(base, { version: "1.0", encoding: "utf-8" });
   this.props = [];
 
   keys.map(function(prop) {
@@ -78,14 +79,34 @@ function AtomFeed(feed) {
   */
 AtomFeed.prototype.add = function(entry) {
   var ae = new AtomEntry(entry);
-  ae.addTo(this);
+  
+  if (ae.props.indexOf("id") === -1) {
+    if (!this.domain) {
+      throw new Error("Auto-generated ids require a domain specified for the feed");
+    }
+
+    if (!ae.relPath) {
+      throw new Error("Auto-generated ids require a relative path for each entry");
+    }
+
+    var id = tag(this.domain, ae.refDate, ae.relPath);
+    ae.doc.ele("id", id);
+  }
+
+  if (ae.props.indexOf("author") === -1) {
+    if (this.props.indexOf("author") === -1) {
+      throw new Error("An author is required for each entry if not specified for the feed");
+    }
+  }
+  
+  this.doc.raw(ae.doc.toString());
 };
 
 /** Converts this feed to an XML string
   * @returns XML Data representing the feed
   */
 AtomFeed.prototype.toString = function() {
-  return this.doc.toString();
+  return this.doc.end();
 };
 
 module.exports = exports = AtomFeed;

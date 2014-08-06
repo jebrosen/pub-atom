@@ -3,7 +3,6 @@
 var builder = require("xmlbuilder");
 
 var helpers = require("./helpers");
-var tag = require("./tag");
 
 /** Data required to create an atom feed. Many of these properties match up with the Atom 1.0 specification
   * @typedef {Object} {EntryData}
@@ -50,33 +49,5 @@ function AtomEntry(entry) {
   
   this.refDate = entry.published || entry.updated;
 }
-
-/** Adds this entry to a feed.
-  * Calling this method enforces some checks such as id generation
-  * and author enforcement that depend on knowing the owning feed
-  * @param feed {AtomFeed} Feed to add this entry to
-  */
-AtomEntry.prototype.addTo = function(feed) {
-  if (this.props.indexOf("id") === -1) {
-    if (!feed.domain) {
-      throw new Error("Auto-generated ids require a domain specified for the feed");
-    }
-
-    if (!this.relPath) {
-      throw new Error("Auto-generated ids require a relative path for each entry");
-    }
-
-    var id = tag(this.domain, this.refDate, this.relPath);
-    this.doc.ele("id", id);
-  }
-
-  if (this.props.indexOf("author") === -1) {
-    if (feed.props.indexOf("author") === -1) {
-      throw new Error("An author is required for each entry if not specified for the feed");
-    }
-  }
-  
-  feed.doc.raw(this.doc.toString());
-};
 
 module.exports = exports = AtomEntry;
