@@ -9,7 +9,7 @@
 
 /** Creates a new Atom content object.
   * @constructor
-  * @param options {Content} A {@link ContentData} object to use when validating the content
+  * @param options {ContentData} A {@link ContentData} object to use when validating the content
   */
 function AtomContent(options) {
   if (typeof options !== "object") {
@@ -24,6 +24,31 @@ function AtomContent(options) {
       throw new Error("Either data or src must be specified for content");
     }
     this.data = options.data;
+  }
+}
+
+
+/** @typedef {Object|string} TextData
+  * @property type {string} Type of text
+  * @property data {string} Text Content
+  */
+
+/** Creates a new Atom text object.
+  * @constructor
+  * @param options {TextData|string} A {@link TextData} object to use, or simple plain text
+  */
+function AtomText(options) {
+  if (typeof options === "object") {
+    this.type = options.type || "text";
+    if (!options.data) {
+      throw new Error("Must specify text data");
+    }
+    this.data = options.data;
+  } else if (typeof options === "string") {
+    this.type = "text";
+    this.data = options;
+  } else {
+    throw new Error("options must be an object or string");
   }
 }
 
@@ -44,7 +69,7 @@ function AtomPerson(options) {
   }
   
   if (!options.name) {
-    throw new Error("person must have a name");
+    throw new Error("a person must have a name");
   }
   this.name = options.name;
   
@@ -59,5 +84,6 @@ function AtomPerson(options) {
 
 module.exports = exports = {
   AtomContent: AtomContent,
+  AtomText: AtomText,
   AtomPerson: AtomPerson,
 };

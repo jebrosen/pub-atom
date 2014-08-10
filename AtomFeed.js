@@ -27,6 +27,10 @@ var defaultGenerator = {
   * @property updated {Date=} Date the feed was last updated. If unspecified, the current date will be used
   * @property author {AtomPerson=} Author of the feed. If unspecified, every entry must have an author
   * @property generator {AtomGenerator} Generator of the feed. If unspecified, pub-atom information will be used
+  * @property icon {string=} Link to the feed's icon
+  * @property logo {string=} Link to the feed's logo
+  * @property rights {TextData=} Copyright information for the feed
+  * @property subtitle {TextData=} Feed subtitle or description
   * @property domain {string=} Domain to use for this feed when automatically generating tag: URIs for entries
   * @memberof AtomFeed
   */
@@ -81,10 +85,29 @@ function AtomFeed(options) {
     "#text": generator.name,
   } });
   
-  // icon
-  // logo
-  // rights
-  // subtitle
+  if (options.icon) {
+    this.icon = options.icon;
+    doc.ele("icon", options.icon);
+  }
+  
+  if (options.logo) {
+    this.logo = options.logo;
+    doc.ele("logo", options.logo);
+  }
+  
+  if (options.rights) {
+    var rights = this.rights = new common.AtomText(options.rights);
+    var rightsDoc = doc.ele("rights");
+    rightsDoc.att("type", rights.type);
+    rightsDoc.text(rights.data);
+  }
+  
+  if (options.subtitle) {
+    var subtitle = this.subtitle = new common.AtomText(options.subtitle);
+    var subtitleDoc = doc.ele("subtitle");
+    subtitleDoc.att("type", subtitle.type);
+    subtitleDoc.text(subtitle.data);
+  }
   
   if (options.domain) {
     this.domain = options.domain;
