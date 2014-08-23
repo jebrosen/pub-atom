@@ -86,4 +86,5 @@ module.exports = exports = {
   AtomContent: AtomContent,
   AtomText: AtomText,
   AtomPerson: AtomPerson,
+  AtomLink: require("./AtomLink"),
 };

@@ -26,6 +26,7 @@ var defaultGenerator = {
   * @property title {string} Feed title
   * @property updated {Date=} Date the feed was last updated. If unspecified, the current date will be used
   * @property author {AtomPerson=} Author of the feed. If unspecified, every entry must have an author
+  * @property links {AtomLink[]|object[]} Links related to the feed. A link with rel=self is recommended.
   * @property generator {AtomGenerator} Generator of the feed. If unspecified, pub-atom information will be used
   * @property icon {string=} Link to the feed's icon
   * @property logo {string=} Link to the feed's logo
@@ -66,10 +67,14 @@ function AtomFeed(options) {
     doc.ele({ author: new common.AtomPerson(options.author) });
   }
   
-  // link
+  if (options.links) {
+    options.links.forEach(function(link) {
+      doc.ele(new common.AtomLink(link).makeElement());
+    });
+  }
 
-  // category
-  // contributor
+  // TODO: category
+  // TODO: contributor
 
   var generator = this.generator = options.generator || defaultGenerator;
   if (typeof generator !== "object") {
