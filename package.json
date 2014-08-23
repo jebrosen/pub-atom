@@ -1,6 +1,6 @@
 {
   "name": "pub-atom",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Atom 1.0 Feed generator",
   "main": "index.js",
   "repository": {
