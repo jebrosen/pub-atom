@@ -49,14 +49,25 @@ var AtomLink = module.exports = exports = function AtomLink(options) {
 };
 
 AtomLink.prototype.makeElement = function() {
-  return {
-    link: {
-      "#href": this.href,
-      "#rel": this.rel,
-      "#type": this.type,
-      "#hreflang": this.hreflang,
-      "#title": this.title,
-      "#length": this.length,
-    },
-  };
+  var linkObj = {};
+
+  linkObj["@href"] = this.href;
+
+  if (this.rel) {
+    linkObj["@rel"] = this.rel;
+  }
+  if (this.type) {
+    linkObj["@type"] = this.type;
+  }
+  if (this.hreflang) {
+    linkObj["@hreflang"] = this.hreflang;
+  }
+  if (this.title) {
+    linkObj["@title"] = this.title;
+  }
+  if (this.length) {
+    linkObj["@length"] = this.length;
+  }
+
+  return { link: linkObj };
 };

@@ -159,6 +159,16 @@ AtomFeed.prototype.addEntry = function(options) {
       contentDoc.text(ae.content.data);
     }
   }
+  
+  if (ae.links) {
+    ae.links.forEach(function(link) {
+      aeDoc.ele(new common.AtomLink(link).makeElement());
+    });
+  }
+  
+  if (ae.published) {
+    aeDoc.ele("published", helpers.dateToISO(ae.published));
+  }
 };
 
 /** Converts this feed to an XML string

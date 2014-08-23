@@ -9,6 +9,7 @@ var common = require("./AtomCommon");
   * @property updated {Date=} Date the entry was last updated. If unspecified, the current time will be used
   * @property author {AtomPerson=} Author of the entry. If unspecified, the feed must have an author.
   * @property content {AtomContent} Entry text or a link to the entry content
+  * @property links {AtomLink[]|object[]} Links related to the entry
   * @property published {Date}= Date the entry was first published
   * @property path {string=} Relative path to this entry. Required if using automatic id generation
   * @memberof AtomEntry
@@ -42,7 +43,10 @@ function AtomEntry(options) {
     this.content = new common.AtomContent(options.content);
   }
   
-  // TODO: link
+  if (options.links) {
+    this.links = options.links;
+  }
+  
   // TODO: summary
   // TODO: category
   // TODO: contributor
