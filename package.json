@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/jebrosen/pub-atom",
   "dependencies": {
-    "xmlbuilder": "^2.4.3"
+    "xmlbuilder": "^2.4.4"
   }
 }
